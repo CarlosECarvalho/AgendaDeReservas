@@ -1,5 +1,5 @@
 ﻿using System;
-
+using AgendaDeReservas.Entities.Exceptions;
 namespace AgendaDeReservas.Entities
 {
     class Reservation
@@ -14,6 +14,10 @@ namespace AgendaDeReservas.Entities
 
         public Reservation(int roomNumber, DateTime checkIn, DateTime checkOut)
         {
+            if (checkOut <= checkIn)
+            {
+                throw new DomainException("Erro na Reserva: Data de Check-Out anterior ao Check-In");
+            }
             RoomNumber = roomNumber;
             CheckIn = checkIn;
             CheckOut = checkOut;
@@ -25,20 +29,19 @@ namespace AgendaDeReservas.Entities
             return (int)duration.TotalDays; //faco a conversao do TimeSpan para int e chamo a propriedade TotalDays para converter de ticks para dias
         }
 
-        public string UpdateDates ( DateTime checkIn, DateTime checkOut)
+        public void UpdateDates ( DateTime checkIn, DateTime checkOut)
         {
             DateTime now = DateTime.Now; // logica de atualização da reserva implementada na funcao propria, porem ainda usando condicionais
             if (checkIn < now || checkOut < now)
             {
-                return "Erro na Reserva: As datas para atualização devem ser datas futuras."; //retornos de funcao que seriam desnecessarios
+                throw new DomainException("Erro na Reserva: As datas para atualização devem ser datas futuras."); //retorno lançando a exception com base na classe criada
             }
             if (checkOut <= checkIn)
             {
-                return "Erro na Reserva: Data de Check-Out anterior ao Check-In";
+                throw new DomainException ("Erro na Reserva: Data de Check-Out anterior ao Check-In");
             }
             CheckIn = checkIn;
             CheckOut = checkOut;
-            return null;
         }
 
 
