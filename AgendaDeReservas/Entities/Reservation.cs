@@ -25,10 +25,20 @@ namespace AgendaDeReservas.Entities
             return (int)duration.TotalDays; //faco a conversao do TimeSpan para int e chamo a propriedade TotalDays para converter de ticks para dias
         }
 
-        public void UpdateDates ( DateTime checkIn, DateTime checkOut)
+        public string UpdateDates ( DateTime checkIn, DateTime checkOut)
         {
+            DateTime now = DateTime.Now; // logica de atualização da reserva implementada na funcao propria, porem ainda usando condicionais
+            if (checkIn < now || checkOut < now)
+            {
+                return "Erro na Reserva: As datas para atualização devem ser datas futuras."; //retornos de funcao que seriam desnecessarios
+            }
+            if (checkOut <= checkIn)
+            {
+                return "Erro na Reserva: Data de Check-Out anterior ao Check-In";
+            }
             CheckIn = checkIn;
             CheckOut = checkOut;
+            return null;
         }
 
 

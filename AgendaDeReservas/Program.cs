@@ -37,18 +37,14 @@ namespace AgendaDeReservas
                     Console.Write("Data do Check-Out: (dd/mm/aaaa): ");
                     checkOut = DateTime.Parse(Console.ReadLine());
 
-                    DateTime now = DateTime.Now;
-                    if (checkIn < now || checkOut < now)
+                    string error = reservation.UpdateDates(checkIn, checkOut);
+
+                    if (error != null)
                     {
-                        Console.WriteLine("Erro na Reserva: As datas para atualização devem ser datas futuras.");
-                    }
-                    else if (checkOut <= checkIn)
-                    {
-                        Console.Write("Erro na Reserva: Data de Check-Out anterior ao Check-In");
+                        Console.WriteLine(error);
                     }
                     else
                     {
-                        reservation.UpdateDates(checkIn, checkOut);
                         Console.WriteLine("Reserva: " + reservation);
                     }
                     }
