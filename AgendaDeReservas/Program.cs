@@ -19,17 +19,18 @@ namespace AgendaDeReservas
 
             if (checkOut <= checkIn) //comparação das datas informadas
             {
-                Console.Write("Erro na Reserva: Data de Check-Out anterior ao Check-In");
+                Console.WriteLine("Erro na Reserva: Data de Check-Out anterior ao Check-In");
             }
             else
             {
                 Reservation reservation = new Reservation(roomNumber, checkIn, checkOut);
                 Console.WriteLine("Reserva: "+ reservation);
 
-                Console.WriteLine("Deseja atualizar a reserva?[s/n]"); //funcao secundaria de atualização
+                Console.Write("\nDeseja atualizar a reserva?[s/n]"); //funcao secundaria de atualização
                 char resp = char.Parse(Console.ReadLine());
                 if (resp == 's'|| resp == 'S')
                 {
+                    Console.Clear();
                     Console.WriteLine("Informe os dados da atualização da reserva:");
                     Console.Write("Data do Check-In: (dd/mm/aaaa): ");
                     checkIn = DateTime.Parse(Console.ReadLine());
