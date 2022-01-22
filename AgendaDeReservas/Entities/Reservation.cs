@@ -25,6 +25,13 @@ namespace AgendaDeReservas.Entities
             return (int)duration.TotalDays; //faco a conversao do TimeSpan para int e chamo a propriedade TotalDays para converter de ticks para dias
         }
 
+        public void UpdateDates ( DateTime checkIn, DateTime checkOut)
+        {
+            CheckIn = checkIn;
+            CheckOut = checkOut;
+        }
+
+
         public override string ToString()
         {
             return "Quarto " + RoomNumber + ", Check-in: " + CheckIn.ToString("dd/MM/yyyy") + ", Check-out: " + CheckOut.ToString("dd/MM/yyyy") + ", " + Duration() + " noites."; //uso o ToString nas datas para formatar a exibicao
