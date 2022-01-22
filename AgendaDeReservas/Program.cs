@@ -17,7 +17,7 @@ namespace AgendaDeReservas
             Console.Write("Data do Check-Out: (dd/mm/aaaa): ");
             DateTime checkOut = DateTime.Parse(Console.ReadLine());
 
-            if (checkOut <= checkIn)
+            if (checkOut <= checkIn) //comparação das datas informadas
             {
                 Console.Write("Erro na Reserva: Data de Check-Out anterior ao Check-In");
             }
@@ -30,6 +30,12 @@ namespace AgendaDeReservas
                 char resp = char.Parse(Console.ReadLine());
                 if (resp == 's'|| resp == 'S')
                 {
+                    Console.WriteLine("Informe os dados da atualização da reserva:");
+                    Console.Write("Data do Check-In: (dd/mm/aaaa): ");
+                    checkIn = DateTime.Parse(Console.ReadLine());
+                    Console.Write("Data do Check-Out: (dd/mm/aaaa): ");
+                    checkOut = DateTime.Parse(Console.ReadLine());
+
                     DateTime now = DateTime.Now;
                     if (checkIn < now || checkOut < now)
                     {
