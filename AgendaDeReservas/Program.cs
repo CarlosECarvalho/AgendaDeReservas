@@ -26,7 +26,7 @@ namespace AgendaDeReservas
                 Reservation reservation = new Reservation(roomNumber, checkIn, checkOut);
                 Console.WriteLine("Reserva: "+ reservation);
 
-                Console.WriteLine("Deseja atualizar a reserva?[s/n]");
+                Console.WriteLine("Deseja atualizar a reserva?[s/n]"); //funcao secundaria de atualização
                 char resp = char.Parse(Console.ReadLine());
                 if (resp == 's'|| resp == 'S')
                 {
