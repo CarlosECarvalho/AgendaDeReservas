@@ -1,5 +1,5 @@
-# AgendaDeReservas
-Exercicio_Tratamento_de_Excecoes
+# Agenda De Reservas
+Exercicio de Tratamento de Excecoes
 
 Projeto destinado a manter um cadastro de reservas de quartos, criado com base em um exercício destinado a prática de C#.
 Com destaque para o tratamento de exceções.
