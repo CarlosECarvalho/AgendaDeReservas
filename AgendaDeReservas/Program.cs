@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgendaDeReservas.Entities;
+using AgendaDeReservas.Entities.Exceptions;
 
 namespace AgendaDeReservas
 {
@@ -10,44 +11,73 @@ namespace AgendaDeReservas
     {
         static void Main(string[] args)
         {
-            Console.Write("Número do Quarto: ");
-            int roomNumber = int.Parse(Console.ReadLine());
-            Console.Write("Data do Check-In: (dd/mm/aaaa): ");
-            DateTime checkIn = DateTime.Parse(Console.ReadLine());
-            Console.Write("Data do Check-Out: (dd/mm/aaaa): ");
-            DateTime checkOut = DateTime.Parse(Console.ReadLine());
-
-            if (checkOut <= checkIn) //comparação das datas informadas
+            try
             {
-                Console.WriteLine("Erro na Reserva: Data de Check-Out anterior ao Check-In");
-            }
-            else
-            {
-                Reservation reservation = new Reservation(roomNumber, checkIn, checkOut);
-                Console.WriteLine("Reserva: "+ reservation);
+                Console.WriteLine("--- NOVA RESERVA ---");
+                Console.Write("Nome do Hóspede: ");
+                string clientName = Console.ReadLine();
+                Console.Write("Número do Quarto: ");
+                int roomNumber = int.Parse(Console.ReadLine());
+                Console.Write("Valor da Diária: R$ ");
+                double pricePerNight = double.Parse(Console.ReadLine());
+                Console.Write("Data do Check-In: (dd/mm/aaaa): ");
+                DateTime checkIn = DateTime.Parse(Console.ReadLine());
+                Console.Write("Data do Check-Out: (dd/mm/aaaa): ");
+                DateTime checkOut = DateTime.Parse(Console.ReadLine());
 
-                Console.Write("\nDeseja atualizar a reserva?[s/n]"); //funcao secundaria de atualização
-                char resp = char.Parse(Console.ReadLine());
-                if (resp == 's'|| resp == 'S')
+                Reservation reservation = new Reservation(roomNumber, clientName, pricePerNight, checkIn, checkOut);
+                Console.WriteLine("\nReserva Criada:\n" + reservation);
+
+                bool exit = false;
+                while (!exit)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Informe os dados da atualização da reserva:");
-                    Console.Write("Data do Check-In: (dd/mm/aaaa): ");
-                    checkIn = DateTime.Parse(Console.ReadLine());
-                    Console.Write("Data do Check-Out: (dd/mm/aaaa): ");
-                    checkOut = DateTime.Parse(Console.ReadLine());
+                    Console.WriteLine("\nEscolha uma opção:");
+                    Console.WriteLine("1 - Atualizar datas da reserva");
+                    Console.WriteLine("2 - Cancelar reserva");
+                    Console.WriteLine("0 - Sair");
+                    Console.Write("Opção: ");
+                    string option = Console.ReadLine();
 
-                    string error = reservation.UpdateDates(checkIn, checkOut);
+                    switch (option)
+                    {
+                        case "1":
+                            Console.Clear();
+                            Console.WriteLine("--- ATUALIZAR RESERVA ---");
+                            Console.Write("Nova Data do Check-In: (dd/mm/aaaa): ");
+                            checkIn = DateTime.Parse(Console.ReadLine());
+                            Console.Write("Nova Data do Check-Out: (dd/mm/aaaa): ");
+                            checkOut = DateTime.Parse(Console.ReadLine());
 
-                    if (error != null)
-                    {
-                        Console.WriteLine(error);
+                            reservation.UpdateDates(checkIn, checkOut);
+                            Console.WriteLine("\nReserva Atualizada:\n" + reservation);
+                            break;
+                        case "2":
+                            Console.Clear();
+                            reservation.Cancel();
+                            Console.WriteLine("Reserva Cancelada com sucesso!");
+                            Console.WriteLine("Reserva: " + reservation);
+                            break;
+                        case "0":
+                            exit = true;
+                            Console.WriteLine("Encerrando...");
+                            break;
+                        default:
+                            Console.WriteLine("Opção inválida.");
+                            break;
                     }
-                    else
-                    {
-                        Console.WriteLine("Reserva: " + reservation);
-                    }
-                    }
+                }
+            }
+            catch (DomainException e)
+            {
+                Console.WriteLine("\nErro na Reserva: " + e.Message);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Erro de formatação: " + e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erro inesperado: " + e.Message);
             }
         }
     }
